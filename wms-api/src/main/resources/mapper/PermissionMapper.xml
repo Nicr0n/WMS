@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicron.study.wmsapi.dao.PermissionMapper">
+  <resultMap id="BaseResultMap" type="com.nicron.study.wmsapi.entity.Permission">
+    <constructor>
+      <idArg column="permission_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="permission" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="permission_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    permission_id, permission, permission_name
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from permission
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.Permission">
+    insert into permission (permission_id, permission, permission_name
+      )
+    values (#{permissionId,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR}, #{permissionName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.Permission">
+    insert into permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="permission != null">
+        permission,
+      </if>
+      <if test="permissionName != null">
+        permission_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionName != null">
+        #{permissionName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nicron.study.wmsapi.entity.Permission">
+    update permission
+    <set>
+      <if test="permission != null">
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="permissionName != null">
+        permission_name = #{permissionName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.Permission">
+    update permission
+    set permission = #{permission,jdbcType=VARCHAR},
+      permission_name = #{permissionName,jdbcType=VARCHAR}
+    where permission_id = #{permissionId,jdbcType=INTEGER}
+  </update>
+</mapper>
