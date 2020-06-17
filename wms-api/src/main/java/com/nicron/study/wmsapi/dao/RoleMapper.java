@@ -1,7 +1,9 @@
 package com.nicron.study.wmsapi.dao;
 
 import com.nicron.study.wmsapi.entity.Role;
+import org.springframework.stereotype.Component;
 
+@Component(value = "RoleMapper")
 public interface RoleMapper {
     int deleteByPrimaryKey(Integer roleId);
 
@@ -10,6 +12,8 @@ public interface RoleMapper {
     int insertSelective(Role record);
 
     Role selectByPrimaryKey(Integer roleId);
+
+    Role selectByRoleIdWithPermission(Integer roleId);
 
     int updateByPrimaryKeySelective(Role record);
 

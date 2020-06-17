@@ -5,12 +5,12 @@
     <constructor>
       <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="expire_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
-      <arg column="toke" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="token" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="update_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
-    user_id, expire_time, toke, update_time
+    user_id, expire_time, token, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -18,14 +18,20 @@
     from token
     where user_id = #{userId,jdbcType=INTEGER}
   </select>
+  <select id="selectByToken" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from token
+    where token = #{token,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from token
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.Token">
-    insert into token (user_id, expire_time, toke, 
+    insert into token (user_id, expire_time, token, 
       update_time)
-    values (#{userId,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{toke,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{expireTime,jdbcType=TIMESTAMP}, #{token,jdbcType=VARCHAR}, 
       #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.Token">
@@ -37,8 +43,8 @@
       <if test="expireTime != null">
         expire_time,
       </if>
-      <if test="toke != null">
-        toke,
+      <if test="token != null">
+        token,
       </if>
       <if test="updateTime != null">
         update_time,
@@ -51,8 +57,8 @@
       <if test="expireTime != null">
         #{expireTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="toke != null">
-        #{toke,jdbcType=VARCHAR},
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
@@ -65,8 +71,8 @@
       <if test="expireTime != null">
         expire_time = #{expireTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="toke != null">
-        toke = #{toke,jdbcType=VARCHAR},
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
       </if>
       <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
@@ -77,7 +83,7 @@
   <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.Token">
     update token
     set expire_time = #{expireTime,jdbcType=TIMESTAMP},
-      toke = #{toke,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>

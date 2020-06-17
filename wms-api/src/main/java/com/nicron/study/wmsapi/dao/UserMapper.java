@@ -1,7 +1,9 @@
 package com.nicron.study.wmsapi.dao;
 
 import com.nicron.study.wmsapi.entity.User;
+import org.springframework.stereotype.Component;
 
+@Component(value = "UserMapper")
 public interface UserMapper {
     int deleteByPrimaryKey(Integer userId);
 
@@ -12,6 +14,8 @@ public interface UserMapper {
     User selectByPrimaryKey(Integer userId);
 
     User selectByUsername(String username);
+
+    User selectByUserIdWithRoles(Integer userId);
 
     int updateByPrimaryKeySelective(User record);
 

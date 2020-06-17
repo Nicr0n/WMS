@@ -1,5 +1,7 @@
 package com.nicron.study.wmsapi.entity;
 
+import java.util.Set;
+
 public class User {
     private Integer userId;
 
@@ -7,10 +9,15 @@ public class User {
 
     private String password;
 
-    public User(Integer userId, String username, String password) {
+    private String salt;
+
+    private Set<Role> roles;
+
+    public User(Integer userId, String username, String password, String salt) {
         this.userId = userId;
         this.username = username;
         this.password = password;
+        this.salt = salt;
     }
 
     public User() {
@@ -39,5 +46,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt == null ? null : salt.trim();
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

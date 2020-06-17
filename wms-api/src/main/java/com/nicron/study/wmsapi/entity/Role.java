@@ -1,11 +1,15 @@
 package com.nicron.study.wmsapi.entity;
 
+import java.util.Set;
+
 public class Role {
     private Integer roleId;
 
     private String roleName;
 
     private String description;
+
+    private Set<Permission> permissions;
 
     public Role(Integer roleId, String roleName, String description) {
         this.roleId = roleId;
@@ -39,5 +43,13 @@ public class Role {
 
     public void setDescription(String description) {
         this.description = description == null ? null : description.trim();
+    }
+
+    public Set<Permission> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<Permission> permissions) {
+        this.permissions = permissions;
     }
 }

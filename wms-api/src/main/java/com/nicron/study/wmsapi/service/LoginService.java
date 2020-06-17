@@ -1,20 +1,24 @@
 package com.nicron.study.wmsapi.service;
 
-import com.nicron.study.wmsapi.dao.UserMapper;
+import com.nicron.study.wmsapi.entity.Role;
 import com.nicron.study.wmsapi.entity.Token;
 import com.nicron.study.wmsapi.entity.User;
-import com.nicron.study.wmsapi.utils.result.Result;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Map;
 
 public interface LoginService {
 
     User findUserByUsername(String username);
 
-    Result createToken(Integer userId);
+    Map<String, Object> createToken(Integer userId);
 
-    void logout(String toke);
+    void logout(String token);
 
     Token findByToken(String accessToken);
 
-    User findById(Integer user);
+    User findById(Integer userid);
+
+    User findByIdWithRole(Integer userid);
+
+    Role findByRoleIdWithPermission(Integer roleid);
 }

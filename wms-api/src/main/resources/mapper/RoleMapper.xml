@@ -8,6 +8,18 @@
       <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ResultMapWithPermission" type="com.nicron.study.wmsapi.entity.Role">
+    <constructor>
+      <idArg column="role_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="role_name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="description" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+    <collection property="permissions" ofType="com.nicron.study.wmsapi.entity.Permission">
+      <result property="permissionId" column="permission_id"></result>
+      <result property="permission" column="permission"></result>
+      <result property="permissionName" column="permission_name"></result>
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List">
     role_id, role_name, description
   </sql>
@@ -16,6 +28,13 @@
     <include refid="Base_Column_List" />
     from role
     where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByRoleIdWithPermission" parameterType="java.lang.Integer" resultMap="ResultMapWithPermission">
+    select role.role_id, role_name, description,permission.permission_id,permission.permission,permission.permission_name
+    FROM role
+    LEFT JOIN role_permisson on role_permisson.role_id = role.role_id
+    LEFT JOIN permission ON role_permisson.permission_id = permission.permission_id
+    WHERE role.role_id= #{roleId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from role

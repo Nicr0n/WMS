@@ -6,10 +6,24 @@
       <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
       <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
       <arg column="password" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="salt" javaType="java.lang.String" jdbcType="VARCHAR" />
     </constructor>
   </resultMap>
+  <resultMap id="ResultMapWithRole" type="com.nicron.study.wmsapi.entity.User">
+    <constructor>
+      <idArg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="username" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="password" javaType="java.lang.String" jdbcType="CHAR" />
+      <arg column="salt" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+    <collection property="roles" ofType="com.nicron.study.wmsapi.entity.Role">
+      <result property="roleId" column="role_id"></result>
+      <result property="roleName" column="role_name"></result>
+      <result property="description" column="description"></result>
+    </collection>
+  </resultMap>
   <sql id="Base_Column_List">
-    user_id, username, password
+    user_id, username, password, salt
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -23,15 +37,23 @@
     from user
     where username = #{username,jdbcType=VARCHAR}
   </select>
+  <select id="selectByUserIdWithRoles" parameterType="java.lang.Integer" resultMap="ResultMapWithRole">
+    select
+     user.user_id, username, password, salt,user_role.role_id,role.role_name,role.description
+     FROM user
+     LEFT JOIN user_role ON user.user_id=user_role.user_id
+     LEFT JOIN role ON role.role_id=user_role.role_id
+     WHERE user.user_id = #{userId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.User">
-    insert into user (user_id, username, password
-      )
-    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}
-      )
+    insert into user (user_id, username, password, 
+      salt)
+    values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, 
+      #{salt,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.User">
     insert into user
@@ -45,6 +67,9 @@
       <if test="password != null">
         password,
       </if>
+      <if test="salt != null">
+        salt,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
@@ -55,6 +80,9 @@
       </if>
       <if test="password != null">
         #{password,jdbcType=CHAR},
+      </if>
+      <if test="salt != null">
+        #{salt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -67,13 +95,17 @@
       <if test="password != null">
         password = #{password,jdbcType=CHAR},
       </if>
+      <if test="salt != null">
+        salt = #{salt,jdbcType=VARCHAR},
+      </if>
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.User">
     update user
     set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=CHAR}
+      password = #{password,jdbcType=CHAR},
+      salt = #{salt,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

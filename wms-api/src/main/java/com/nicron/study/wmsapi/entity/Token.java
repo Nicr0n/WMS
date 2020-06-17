@@ -7,19 +7,19 @@ public class Token {
 
     private Date expireTime;
 
-    private String toke;
+    private String token;
 
     private Date updateTime;
 
-    public Token(Integer userId, Date expireTime, String toke, Date updateTime) {
+    public Token(Integer userId, Date expireTime, String token, Date updateTime) {
         this.userId = userId;
         this.expireTime = expireTime;
-        this.toke = toke;
+        this.token = token;
         this.updateTime = updateTime;
     }
 
     public Token() {
-        super();
+        
     }
 
     public Integer getUserId() {
@@ -38,12 +38,12 @@ public class Token {
         this.expireTime = expireTime;
     }
 
-    public String getToke() {
-        return toke;
+    public String getToken() {
+        return token;
     }
 
-    public void setToke(String toke) {
-        this.toke = toke == null ? null : toke.trim();
+    public void setToken(String token) {
+        this.token = token == null ? null : token.trim();
     }
 
     public Date getUpdateTime() {

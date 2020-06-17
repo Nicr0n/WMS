@@ -1,0 +1,3 @@
+/.idea/
+/wms-api/src/main/resources/application.yml
+/wms-api/src/main/resources/mybatis-generator.xml
