@@ -2,7 +2,7 @@ package com.nicron.study.wmsapi.utils.result;
 
 public enum ResultEnum {
     UNKNOW_ERROR(-1,"未知错误"),
-    SUCCESS(100,"成功");
+    SUCCESS(200,"成功");
     private Integer code;
     private String msg;
 

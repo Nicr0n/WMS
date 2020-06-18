@@ -49,7 +49,9 @@
     delete from user
     where user_id = #{userId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.User">
+<!-- 设置keyProperty属性返回主键-->
+  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.User"  keyColumn="user_id"
+          useGeneratedKeys="true" keyProperty="userId">
     insert into user (user_id, username, password, 
       salt)
     values (#{userId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=CHAR}, 

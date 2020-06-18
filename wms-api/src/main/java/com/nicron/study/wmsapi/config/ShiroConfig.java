@@ -41,6 +41,7 @@ public class ShiroConfig {
          */
         Map<String, String> filterMap = new LinkedHashMap<>();
         filterMap.put("/login", "anon");
+        filterMap.put("/register", "anon");
         filterMap.put("logout", "logout");
         filterMap.put("/**", "auth");
         //设置未登录时的路径

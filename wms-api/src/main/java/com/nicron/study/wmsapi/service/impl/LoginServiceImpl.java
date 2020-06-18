@@ -2,12 +2,17 @@ package com.nicron.study.wmsapi.service.impl;
 
 import com.nicron.study.wmsapi.dao.RoleMapper;
 import com.nicron.study.wmsapi.dao.TokenMapper;
+import com.nicron.study.wmsapi.dao.UserInformationMapper;
 import com.nicron.study.wmsapi.dao.UserMapper;
 import com.nicron.study.wmsapi.entity.Role;
 import com.nicron.study.wmsapi.entity.Token;
 import com.nicron.study.wmsapi.entity.User;
+import com.nicron.study.wmsapi.entity.UserInformation;
 import com.nicron.study.wmsapi.service.LoginService;
+import com.nicron.study.wmsapi.utils.EncryptPassword;
 import com.nicron.study.wmsapi.utils.TokenGenerator;
+import com.nicron.study.wmsapi.utils.result.Result;
+import com.nicron.study.wmsapi.utils.result.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +29,8 @@ public class LoginServiceImpl implements LoginService {
     private TokenMapper tokenMapper;
     @Autowired
     private RoleMapper roleMapper;
+    @Autowired
+    private UserInformationMapper userInformationMapper;
 
     @Override
     public User findUserByUsername(String username) {
@@ -101,5 +108,29 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public Role findByRoleIdWithPermission(Integer roleid) {
         return roleMapper.selectByRoleIdWithPermission(roleid);
+    }
+
+    @Override
+    public Result registration(User user, UserInformation userInformation) {
+        //密码加盐
+        String password = user.getPassword();
+        String[] cipher_salt = EncryptPassword.encryptPassword(password);
+        String salt = cipher_salt[0];
+        String cipher = cipher_salt[1];
+        user.setPassword(cipher);
+        user.setSalt(salt);
+        userMapper.insert(user);
+        Integer userId = user.getUserId();
+        if (userId==null){
+            return ResultUtil.error(201,"注册失败");
+        }else {
+            userInformation.setUserId(userId);
+            userInformation.setRegistrationTime(new Date());
+            userInformationMapper.insert(userInformation);
+            Result result = ResultUtil.success();
+            result.setCode(200);
+            result.setMsg("注册成功");
+            return result;
+        }
     }
 }
