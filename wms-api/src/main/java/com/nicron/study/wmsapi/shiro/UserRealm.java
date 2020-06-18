@@ -53,9 +53,9 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        //获取前段传入的Token
+        //获取前端传入的Token
         String accessToken = (String) authenticationToken.getPrincipal();
-        //根据前段token查询用户信息
+        //根据前端token查询用户信息
         Token token = loginService.findByToken(accessToken);
         //token失效
         if (token == null || token.getExpireTime().getTime() < System.currentTimeMillis()) {

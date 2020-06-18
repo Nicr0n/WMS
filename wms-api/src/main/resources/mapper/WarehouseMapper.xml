@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicron.study.wmsapi.dao.WarehouseMapper">
+  <resultMap id="BaseResultMap" type="com.nicron.study.wmsapi.entity.Warehouse">
+    <constructor>
+      <idArg column="warehouse_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="name" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="adress" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="load" javaType="java.lang.String" jdbcType="VARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    warehouse_id, name, status, adress, load
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.Warehouse">
+    insert into warehouse (warehouse_id, name, status, 
+      adress, load)
+    values (#{warehouseId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{adress,jdbcType=VARCHAR}, #{load,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.Warehouse">
+    insert into warehouse
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="adress != null">
+        adress,
+      </if>
+      <if test="load != null">
+        load,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null">
+        #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="load != null">
+        #{load,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nicron.study.wmsapi.entity.Warehouse">
+    update warehouse
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="adress != null">
+        adress = #{adress,jdbcType=VARCHAR},
+      </if>
+      <if test="load != null">
+        load = #{load,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.Warehouse">
+    update warehouse
+    set name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      adress = #{adress,jdbcType=VARCHAR},
+      load = #{load,jdbcType=VARCHAR}
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+</mapper>

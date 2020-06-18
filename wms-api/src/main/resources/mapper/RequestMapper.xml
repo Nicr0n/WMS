@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicron.study.wmsapi.dao.RequestMapper">
+  <resultMap id="BaseResultMap" type="com.nicron.study.wmsapi.entity.Request">
+    <constructor>
+      <idArg column="request_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="warehouse_admin" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="warehouse_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="good" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="request_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="request_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="reservation_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="complete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.nicron.study.wmsapi.entity.Request">
+    <constructor>
+      <idArg column="request_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="warehouse_admin" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="user_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="warehouse_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="good" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="request_type" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="status" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="request_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="reservation_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="complete_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    request_id, warehouse_admin, user_id, warehouse_id, good, number, request_type, status, 
+    request_time, reservation_time, complete_time
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from request
+    where request_id = #{requestId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from request
+    where request_id = #{requestId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.Request">
+    insert into request (request_id, warehouse_admin, user_id, 
+      warehouse_id, good, number, 
+      request_type, status, request_time, 
+      reservation_time, complete_time, description
+      )
+    values (#{requestId,jdbcType=VARCHAR}, #{warehouseAdmin,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, 
+      #{warehouseId,jdbcType=INTEGER}, #{good,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{requestType,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{requestTime,jdbcType=TIMESTAMP}, 
+      #{reservationTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}, #{description,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.Request">
+    insert into request
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="requestId != null">
+        request_id,
+      </if>
+      <if test="warehouseAdmin != null">
+        warehouse_admin,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="good != null">
+        good,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="requestType != null">
+        request_type,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="requestTime != null">
+        request_time,
+      </if>
+      <if test="reservationTime != null">
+        reservation_time,
+      </if>
+      <if test="completeTime != null">
+        complete_time,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="requestId != null">
+        #{requestId,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseAdmin != null">
+        #{warehouseAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        #{good,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="requestType != null">
+        #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reservationTime != null">
+        #{reservationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nicron.study.wmsapi.entity.Request">
+    update request
+    <set>
+      <if test="warehouseAdmin != null">
+        warehouse_admin = #{warehouseAdmin,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        good = #{good,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="requestType != null">
+        request_type = #{requestType,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="requestTime != null">
+        request_time = #{requestTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reservationTime != null">
+        reservation_time = #{reservationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null">
+        complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where request_id = #{requestId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nicron.study.wmsapi.entity.Request">
+    update request
+    set warehouse_admin = #{warehouseAdmin,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      good = #{good,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      request_type = #{requestType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      reservation_time = #{reservationTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where request_id = #{requestId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.Request">
+    update request
+    set warehouse_admin = #{warehouseAdmin,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      good = #{good,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      request_type = #{requestType,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      request_time = #{requestTime,jdbcType=TIMESTAMP},
+      reservation_time = #{reservationTime,jdbcType=TIMESTAMP},
+      complete_time = #{completeTime,jdbcType=TIMESTAMP}
+    where request_id = #{requestId,jdbcType=VARCHAR}
+  </update>
+</mapper>

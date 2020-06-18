@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nicron.study.wmsapi.dao.ExportRecordMapper">
+  <resultMap id="BaseResultMap" type="com.nicron.study.wmsapi.entity.ExportRecord">
+    <constructor>
+      <idArg column="export_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="customer_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="export_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="warehouse_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="good" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.nicron.study.wmsapi.entity.ExportRecord">
+    <constructor>
+      <idArg column="export_id" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="customer_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="export_time" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+      <arg column="warehouse_id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="good" javaType="java.lang.String" jdbcType="VARCHAR" />
+      <arg column="number" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="description" javaType="java.lang.String" jdbcType="LONGVARCHAR" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    export_id, customer_id, export_time, warehouse_id, good, number
+  </sql>
+  <sql id="Blob_Column_List">
+    description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from export_record
+    where export_id = #{exportId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from export_record
+    where export_id = #{exportId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.nicron.study.wmsapi.entity.ExportRecord">
+    insert into export_record (export_id, customer_id, export_time, 
+      warehouse_id, good, number, 
+      description)
+    values (#{exportId,jdbcType=VARCHAR}, #{customerId,jdbcType=INTEGER}, #{exportTime,jdbcType=TIMESTAMP}, 
+      #{warehouseId,jdbcType=INTEGER}, #{good,jdbcType=VARCHAR}, #{number,jdbcType=INTEGER}, 
+      #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.nicron.study.wmsapi.entity.ExportRecord">
+    insert into export_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="exportId != null">
+        export_id,
+      </if>
+      <if test="customerId != null">
+        customer_id,
+      </if>
+      <if test="exportTime != null">
+        export_time,
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id,
+      </if>
+      <if test="good != null">
+        good,
+      </if>
+      <if test="number != null">
+        number,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="exportId != null">
+        #{exportId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null">
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="exportTime != null">
+        #{exportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseId != null">
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        #{good,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.nicron.study.wmsapi.entity.ExportRecord">
+    update export_record
+    <set>
+      <if test="customerId != null">
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="exportTime != null">
+        export_time = #{exportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="warehouseId != null">
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="good != null">
+        good = #{good,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null">
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where export_id = #{exportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.nicron.study.wmsapi.entity.ExportRecord">
+    update export_record
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      export_time = #{exportTime,jdbcType=TIMESTAMP},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      good = #{good,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where export_id = #{exportId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.nicron.study.wmsapi.entity.ExportRecord">
+    update export_record
+    set customer_id = #{customerId,jdbcType=INTEGER},
+      export_time = #{exportTime,jdbcType=TIMESTAMP},
+      warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      good = #{good,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER}
+    where export_id = #{exportId,jdbcType=VARCHAR}
+  </update>
+</mapper>
