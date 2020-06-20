@@ -17,6 +17,17 @@
     from good_storage
     where warehouse_id = #{warehouseId,jdbcType=INTEGER}
   </select>
+  <select id="selectStorageByGoodsName" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from good_storage
+    where good = #{good,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAllStorage" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from good_storage
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from good_storage
     where warehouse_id = #{warehouseId,jdbcType=INTEGER}
