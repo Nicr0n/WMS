@@ -42,6 +42,10 @@ public class LoginController {
 
     @PostMapping(value = "register",produces = {"application/json;charset=UTF-8"})
     public Result registration(@RequestBody RegistrationDTO registrationDTO){
-        return loginService.registration(registrationDTO.getUser(),registrationDTO.getUserInformation());
+        if(loginService.findUserByUsername(registrationDTO.getUser().getUsername())==null){
+            return loginService.registration(registrationDTO);
+        }else{
+            return ResultUtil.error(400,"该用户已被注册");
+        }
     }
 }

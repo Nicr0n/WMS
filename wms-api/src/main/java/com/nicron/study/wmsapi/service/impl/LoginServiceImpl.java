@@ -1,13 +1,8 @@
 package com.nicron.study.wmsapi.service.impl;
 
-import com.nicron.study.wmsapi.dao.RoleMapper;
-import com.nicron.study.wmsapi.dao.TokenMapper;
-import com.nicron.study.wmsapi.dao.UserInformationMapper;
-import com.nicron.study.wmsapi.dao.UserMapper;
-import com.nicron.study.wmsapi.entity.Role;
-import com.nicron.study.wmsapi.entity.Token;
-import com.nicron.study.wmsapi.entity.User;
-import com.nicron.study.wmsapi.entity.UserInformation;
+import com.nicron.study.wmsapi.DTO.RegistrationDTO;
+import com.nicron.study.wmsapi.dao.*;
+import com.nicron.study.wmsapi.entity.*;
 import com.nicron.study.wmsapi.service.LoginService;
 import com.nicron.study.wmsapi.utils.EncryptPassword;
 import com.nicron.study.wmsapi.utils.TokenGenerator;
@@ -31,6 +26,8 @@ public class LoginServiceImpl implements LoginService {
     private RoleMapper roleMapper;
     @Autowired
     private UserInformationMapper userInformationMapper;
+    @Autowired
+    private UserInvalidMapper userInvalidMapper;
 
     @Override
     public User findUserByUsername(String username) {
@@ -45,7 +42,7 @@ public class LoginServiceImpl implements LoginService {
     public Map<String, Object> createToken(Integer userId) {
         Map<String, Object> result = new HashMap<>();
         Token token = tokenMapper.selectByPrimaryKey(userId);
-        if(token==null){
+        if (token == null) {
             //生成一个token
             String generate_token = TokenGenerator.generateValue();
             //当前时间
@@ -58,7 +55,7 @@ public class LoginServiceImpl implements LoginService {
             token.setExpireTime(expireTime);
             token.setToken(generate_token);
             tokenMapper.insert(token);
-        }else{
+        } else {
             //生成一个token
             String generate_token = TokenGenerator.generateValue();
             //当前时间
@@ -111,7 +108,10 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public Result registration(User user, UserInformation userInformation) {
+    public Result registration(RegistrationDTO registrationDTO) {
+        User user = registrationDTO.getUser();
+        UserInformation userInformation = registrationDTO.getUserInformation();
+        String identity = registrationDTO.getIdentity();
         //密码加盐
         String password = user.getPassword();
         String[] cipher_salt = EncryptPassword.encryptPassword(password);
@@ -121,12 +121,13 @@ public class LoginServiceImpl implements LoginService {
         user.setSalt(salt);
         userMapper.insert(user);
         Integer userId = user.getUserId();
-        if (userId==null){
-            return ResultUtil.error(201,"注册失败");
-        }else {
+        if (userId == null) {
+            return ResultUtil.error(201, "注册失败");
+        } else {
             userInformation.setUserId(userId);
             userInformation.setRegistrationTime(new Date());
             userInformationMapper.insert(userInformation);
+            userInvalidMapper.insert(new UserInvalid(userId, identity));
             Result result = ResultUtil.success();
             result.setCode(200);
             result.setMsg("注册成功");

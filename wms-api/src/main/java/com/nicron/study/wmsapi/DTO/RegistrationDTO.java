@@ -8,4 +8,5 @@ import lombok.Data;
 public class RegistrationDTO {
     private User user;
     private UserInformation userInformation;
+    private String identity;
 }

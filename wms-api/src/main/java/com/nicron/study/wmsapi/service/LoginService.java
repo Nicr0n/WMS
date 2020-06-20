@@ -1,9 +1,9 @@
 package com.nicron.study.wmsapi.service;
 
+import com.nicron.study.wmsapi.DTO.RegistrationDTO;
 import com.nicron.study.wmsapi.entity.Role;
 import com.nicron.study.wmsapi.entity.Token;
 import com.nicron.study.wmsapi.entity.User;
-import com.nicron.study.wmsapi.entity.UserInformation;
 import com.nicron.study.wmsapi.utils.result.Result;
 
 import java.util.Map;
@@ -24,5 +24,5 @@ public interface LoginService {
 
     Role findByRoleIdWithPermission(Integer roleId);
 
-    Result registration(User user, UserInformation userInformation);
+    Result registration(RegistrationDTO registrationDTO);
 }
