@@ -20,6 +20,8 @@ public interface LoginService {
 
     User findById(Integer userid);
 
+    Result getUserInfo(Token token);
+
     User findByIdWithRole(Integer userid);
 
     Role findByRoleIdWithPermission(Integer roleId);

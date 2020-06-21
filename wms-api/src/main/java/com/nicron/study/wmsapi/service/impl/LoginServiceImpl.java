@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 @Service(value = "LoginService")
@@ -85,6 +86,26 @@ public class LoginServiceImpl implements LoginService {
         newToken.setUserId(byToken.getUserId());
         newToken.setToken(token);
         tokenMapper.updateByPrimaryKeySelective(newToken);
+    }
+
+    @Override
+    public Result getUserInfo(Token token) {
+        Token byToken = findByToken(token.getToken());
+        User user = findByIdWithRole(byToken.getUserId());
+        Iterator<Role> it = user.getRoles().iterator();
+        while (it.hasNext()){
+            Role role = it.next();
+            role = findByRoleIdWithPermission(role.getRoleId());
+        }
+        if (user!=null){
+            Result result =ResultUtil.success();
+            result.setCode(200);
+            result.setMsg("成功");
+            result.setData(user);
+            return result;
+        }else {
+            return ResultUtil.error(400,"失败");
+        }
     }
 
     @Override

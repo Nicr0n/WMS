@@ -30,7 +30,7 @@ public class SupplierController {
         String requestId = UUID.randomUUID().toString();
         Date requestTime = new Date();
         String status = "unhandled";
-        String requestType="export";
+        String requestType="import";
         //封装
         request.setRequestId(requestId);
         request.setRequestTime(requestTime);

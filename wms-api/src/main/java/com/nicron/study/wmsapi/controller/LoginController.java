@@ -1,6 +1,7 @@
 package com.nicron.study.wmsapi.controller;
 
 import com.nicron.study.wmsapi.DTO.RegistrationDTO;
+import com.nicron.study.wmsapi.entity.Token;
 import com.nicron.study.wmsapi.entity.User;
 import com.nicron.study.wmsapi.service.LoginService;
 import com.nicron.study.wmsapi.utils.EncryptPassword;
@@ -47,5 +48,10 @@ public class LoginController {
         }else{
             return ResultUtil.error(400,"该用户已被注册");
         }
+    }
+
+    @GetMapping(value = "getUserInfo")
+    public Result getUserInfo(@RequestBody Token token){
+        return loginService.getUserInfo(token);
     }
 }

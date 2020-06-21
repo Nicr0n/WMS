@@ -28,7 +28,7 @@ public class CustomerController {
         String requestId = UUID.randomUUID().toString();
         Date requestTime = new Date();
         String status = "unhandled";
-        String requestType="import";
+        String requestType="export";
         //封装
         request.setRequestId(requestId);
         request.setRequestTime(requestTime);
